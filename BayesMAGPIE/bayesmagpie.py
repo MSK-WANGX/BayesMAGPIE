@@ -92,7 +92,8 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
     print('Preparing to Run BayesMAGPIE...')
     designMat_pas, designMat_dri, designMat_codri, tran_mat, num_Comut = createHelpMats(cts, nCols)
     b0_gene_log = (mat_x.mean(0)/(1-mat_x.mean(0))).log()
-
+    b0_mean = b0_gene_log.mean()
+    
     @config_enumerate
     def model(data, TMB, alpha):
         alpha_vec = torch.ones(nCols+1) * alpha
