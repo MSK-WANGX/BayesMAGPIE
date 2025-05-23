@@ -41,7 +41,7 @@ def cleanData(mutation_df, tmb_df):
     mutation_df = mutation_df.loc[:, mutation_df.sum() != 0]
     mat_x = df_to_tensor(mutation_df) # convert data matrix df to tensor
 
-    col_names = [string[:string.find('_')] if '_' in string else string for string in mat0_df.columns]
+    col_names = [string[:string.find('_')] if '_' in string else string for string in mutation_df.columns]
     uniq_genes, cts = np.unique(col_names, return_counts=True)
 
     tmb_vec = df_to_tensor(tmb_df)
@@ -205,7 +205,7 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
     print('Estimating Driver Frequency...')
     map_estimates = global_guide(mat_x, tmb_vec, alpha)
     wgt_out =  map_estimates["weights"]
-    newvar = list(mat0_df.columns)
+    newvar = list(mutation_df.columns)
     newvar.append('no_driver')
     driver_freq_mat = pd.DataFrame({'gene': newvar, 'weight': wgt_out.cpu().data.numpy()}, columns=['gene', 'weight'])
 
@@ -243,8 +243,8 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
 
     assignment_probs = pyro.param("assignment_probs")
     postP_var = pd.DataFrame(assignment_probs.data.cpu().numpy(),
-                            columns = mat0_df.columns.append(pd.Index(['no_driver'])),
-                            index = mat0_df.index)
+                            columns = mutation_df.columns.append(pd.Index(['no_driver'])),
+                            index = mutation_df.index)
 
     # Gene level postP
     gene0 = list(uniq_genes)[0]
