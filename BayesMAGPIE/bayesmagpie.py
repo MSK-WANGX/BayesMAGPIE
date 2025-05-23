@@ -9,6 +9,7 @@ Original file is located at
 
 # Commented out IPython magic to ensure Python compatibility.
 from collections import defaultdict
+import os
 import torch
 import numpy as np
 from torch.distributions import constraints
