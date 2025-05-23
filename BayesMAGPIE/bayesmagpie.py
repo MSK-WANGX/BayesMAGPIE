@@ -30,7 +30,7 @@ smoke_test = "CI" in os.environ
 torch.manual_seed(2025)
 np.random.seed(2025)
 # Set up CPU as the default device
-device = torch.device('CPU')
+device = torch.device('cpu')
 torch.set_default_dtype(torch.float64)
 
 def df_to_tensor(df):
