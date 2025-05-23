@@ -9,6 +9,6 @@ setup(name='BayesMAGPIE',
       license='MIT',
       packages=['BayesMAGPIE'],
       install_requires=[
-          'pandas','numpy','torch', 'pyro'
+          'pandas','numpy'
       ],
       zip_safe=False)
