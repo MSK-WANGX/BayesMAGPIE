@@ -1,3 +1,4 @@
+# Commented out IPython magic to ensure Python compatibility.
 import os
 from collections import defaultdict
 import torch
@@ -188,10 +189,8 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
             if abs((grad_norm_vec[-1] - grad_norm_vec[-stop_int]) / grad_norm_vec[-stop_int]) < 1e-6:
                 print(f"Stopping early at iteration {i} as loss decrease is too small.")
                 break
-    print('Finished running.')
 
     # Estimated Driver Frequency
-    print('Estimating Driver Frequency...')
     map_estimates = global_guide(mat_x, tmb_vec, alpha)
     wgt_out =  map_estimates["weights"]
     newvar = feature_names
@@ -266,4 +265,5 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
     driver_freq_gene_mat = postP_gene.mean(axis=0).iloc[:-1].sort_values(ascending=False)
     
     out = output_BayesMAGPIE(driver_freq_feaure_mat_sort, driver_freq_gene_mat, postP_var, postP_gene)
+    print('Finished running.')
     return out
