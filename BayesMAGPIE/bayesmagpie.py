@@ -16,9 +16,6 @@ from pyro.infer import SVI, TraceEnum_ELBO, config_enumerate, infer_discrete
 from pyro.infer.mcmc import NUTS
 smoke_test = "CI" in os.environ
 
-torch.manual_seed(2025)
-np.random.seed(2025)
-
 # Set up CPU as the default device
 device = torch.device('cpu')
 
@@ -69,7 +66,10 @@ class output_BayesMAGPIE:
         self.prob_mat_feature = postP_var
         self.prob_mat_gene = postP_gene
 
-def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, initial_lr = 0.01, gamma = 0.1):
+def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, initial_lr = 0.01, gamma = 0.1, rand_seed=2025):
+    torch.manual_seed(rand_seed)
+    np.random.seed(rand_seed)
+    
     lrd = gamma ** (1 / nIter)
     optim = pyro.optim.ClippedAdam({'lr': initial_lr, 'lrd': lrd})
     elbo = TraceEnum_ELBO(max_plate_nesting=1)
