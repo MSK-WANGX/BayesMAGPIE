@@ -187,7 +187,7 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
         if i >= 100:  # Ensure there are enough previous iterations to compare ### and i % 50 == 0
             grad_norm_vec = gradient_norms["AutoDelta.weights"]
             if abs((grad_norm_vec[-1] - grad_norm_vec[-stop_int]) / grad_norm_vec[-stop_int]) < 1e-6:
-                print(f"Stopping early at iteration {i} as loss decrease is too small.")
+                print(f"Early stopping at iteration {i} : loss reduction below threshold.")
                 break
 
     # Estimated Driver Frequency
