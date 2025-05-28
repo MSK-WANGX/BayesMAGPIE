@@ -36,10 +36,10 @@ Method 2: Clone the repo and install locally
 - `rand_seed` (int): Random seed for reproducibility.
 
 ### Outputs
-- `driver_freq_feaure_mat`: A *pandas.DataFrame* with two columns. The first column shows the observed relative mutation frequency for each feature (gene or gene-specific mutation type), and the second column reports the inferred driver frequency estimated by BayesMAGPIE.
-- `driver_freq_gene_mat` Similar to `driver_freq_feaure_mat`, but driver frequencies are summarized at the gene level.
-- `postP_feature`: A *pandas.DataFrame* of shape *n* × (*m* + 1). Each row corresponds to a tumor and each column (except the last) represents the posterior probability of a driver mutation in a specific feature. The final column contains the posterior probability that no driver mutation is present.
-- `postP_gene`: Similar to `postP_feature`, but with posterior probabilities summarized at the gene level. Each column corresponds to a gene.
+- `driver_freq_feature`: A *pandas.DataFrame* with two columns. The first column shows the observed relative mutation frequency for each feature (gene or gene-specific mutation type), and the second column reports the inferred driver frequency estimated by BayesMAGPIE.
+- `driver_freq_gene` Similar to `driver_freq_feaure_mat`, but driver frequencies are summarized at the gene level.
+- `prob_mat_feature`: A *pandas.DataFrame* of shape *n* × (*m* + 1). Each row corresponds to a tumor and each column (except the last) represents the posterior probability of a driver mutation in a specific feature. The final column contains the posterior probability that no driver mutation is present.
+- `prob_mat_gene`: Similar to `postP_feature`, but with posterior probabilities summarized at the gene level. Each column corresponds to a gene.
 
 ## Paper
 Wang X, Kostrzewa C, Reiner A, Shen R, Colin B. A Bayesian Approach for Identifying Driver Mutations within Oncogenic Pathways through Mutual Exclusivity. *Submitted* (2025+).
