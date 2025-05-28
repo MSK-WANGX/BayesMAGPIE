@@ -4,7 +4,7 @@ BayesMAGPIE is a statistical method for probabilistically identifying driver mut
 <br><br>Leveraging a Bayesian hierarchical modeling approach, BayesMAGPIE introduces two key innovations: (1) incorporation of information on mutation type (e.g., missense vs. truncating) to capture potential functional differences among variants within the same gene; and (2) modeling gene-specific driver frequencies with a Dirichlet prior to effectively control sparsity in the inferred driver set.
 
 A tutorial of BayesMAGPIE on Google Colab: <a 
-				       href="https://colab.research.google.com/drive/1ozZQ5wAZfWK3i8cazJ003nfelLR7EMzw?usp=sharing">
+				       href="https://colab.research.google.com/drive/1o6GvgH2SBtaNg9RUIwYeLwQOv1fyURY7?usp=sharing">
   	<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 	</a>
 	
