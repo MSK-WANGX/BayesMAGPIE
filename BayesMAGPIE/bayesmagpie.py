@@ -60,10 +60,10 @@ def createHelpMats(cts, nCols):
     return designMat_pas, designMat_dri, designMat_codri, tran_mat, num_Comut
 
 class output_BayesMAGPIE:
-    def __init__(self, driver_freq_feaure_mat, driver_freq_gene_mat, postP_var, postP_gene):
+    def __init__(self, driver_freq_feaure_mat, driver_freq_gene_mat, postP_feature, postP_gene):
         self.driver_freq_feature = driver_freq_feaure_mat
         self.driver_freq_gene = driver_freq_gene_mat
-        self.prob_mat_feature = postP_var
+        self.prob_mat_feature = postP_feature
         self.prob_mat_gene = postP_gene
 
 def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, initial_lr = 0.01, gamma = 0.1, rand_seed=2025):
@@ -230,32 +230,32 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
         losses.append(loss)
 
     assignment_probs = pyro.param("assignment_probs")
-    postP_var = pd.DataFrame(assignment_probs.data.cpu().numpy(),
-                             columns = newvar,
-                             index = mutation_df.index)
+    postP_feature = pd.DataFrame(assignment_probs.data.cpu().numpy(),
+                                 columns = newvar,
+                                 index = mutation_df.index)
 
     # Gene level postP
     gene0 = list(uniq_genes)[0]
-    col_set0 = [col for col in postP_var.columns if re.search(gene0, col)]
+    col_set0 = [col for col in postP_feature.columns if re.search(gene0, col)]
     if len(col_set0) > 1:
-        postP_gene = postP_var[col_set0].sum(1)
+        postP_gene = postP_feature[col_set0].sum(1)
     else:
-        postP_gene = postP_var[col_set0]
+        postP_gene = postP_feature[col_set0]
 
     for gene_j in list(uniq_genes)[1:len(uniq_genes)]:
-        col_set = [col for col in postP_var.columns if re.search(gene_j, col)]
+        col_set = [col for col in postP_feature.columns if re.search(gene_j, col)]
         if len(col_set)> 1:
-            postP_gene = pd.concat([postP_gene, postP_var[col_set].sum(1)],axis=1)
+            postP_gene = pd.concat([postP_gene, postP_feature[col_set].sum(1)],axis=1)
         else:
-            postP_gene = pd.concat([postP_gene, postP_var[col_set]], axis=1)
+            postP_gene = pd.concat([postP_gene, postP_feature[col_set]], axis=1)
 
-    postP_gene = pd.concat([postP_gene, postP_var['no_driver']], axis=1)
+    postP_gene = pd.concat([postP_gene, postP_feature['no_driver']], axis=1)
     new_columns = list(uniq_genes)
     new_columns.append('no_driver')
     postP_gene.columns = new_columns
     
     # Compute driver_freq_feaure_mat
-    driver_freq_feature_df = postP_var.mean(axis=0).iloc[:-1]
+    driver_freq_feature_df = postP_feature.mean(axis=0).iloc[:-1]
     mut_freq_feature_df = pd.DataFrame(mat_x.mean(0).cpu(), index = feature_names[:-1])
     driver_freq_feaure_mat = pd.concat([mut_freq_feature_df, driver_freq_feature_df],axis=1)
     driver_freq_feaure_mat.columns = ['Mut.Freq', 'Driver.Freq']
@@ -264,6 +264,6 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
     # Compute driver_freq_feaure_mat
     driver_freq_gene_mat = postP_gene.mean(axis=0).iloc[:-1].sort_values(ascending=False)
     
-    out = output_BayesMAGPIE(driver_freq_feaure_mat_sort, driver_freq_gene_mat, postP_var, postP_gene)
+    out = output_BayesMAGPIE(driver_freq_feaure_mat_sort, driver_freq_gene_mat, postP_feature, postP_gene)
     print('Finished running.')
     return out
