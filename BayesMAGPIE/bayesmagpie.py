@@ -60,11 +60,12 @@ def createHelpMats(cts, nCols):
     return designMat_pas, designMat_dri, designMat_codri, tran_mat, num_Comut
 
 class output_BayesMAGPIE:
-    def __init__(self, driver_freq_feaure_mat, driver_freq_gene_mat, postP_feature, postP_gene):
+    def __init__(self, driver_freq_feaure_mat, driver_freq_gene_mat, postP_feature, postP_gene, rho_vec):
         self.driver_freq_feature = driver_freq_feaure_mat
         self.driver_freq_gene = driver_freq_gene_mat
         self.prob_mat_feature = postP_feature
         self.prob_mat_gene = postP_gene
+        self.rho = rho_vec
 
 def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, initial_lr = 0.01, gamma = 0.1, rand_seed=2025):
     torch.manual_seed(rand_seed)
