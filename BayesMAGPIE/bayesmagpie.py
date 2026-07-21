@@ -263,7 +263,9 @@ def BayesMAGPIE(mutation_df, tmb_df, alpha = .1, nIter = 3000, nInit = 1000, ini
 
     # Compute driver_freq_feaure_mat
     driver_freq_gene_mat = postP_gene.mean(axis=0).iloc[:-1].sort_values(ascending=False)
+
+    rho_vec = pd.DataFrame(map_estimates['comut'].cpu().data.numpy())
     
-    out = output_BayesMAGPIE(driver_freq_feaure_mat_sort, driver_freq_gene_mat, postP_feature, postP_gene)
+    out = output_BayesMAGPIE(driver_freq_feaure_mat_sort, driver_freq_gene_mat, postP_feature, postP_gene, rho_vec)
     print('Finished running.')
     return out
